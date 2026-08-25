@@ -109,6 +109,7 @@ void readbmp(char *filename, uchar *array) {
 }
 
 void invert(uchar *bmp_arr, size_t size) {
+  // iterate throug hall values and mirror the color values (255 - val)
   for (size_t i = 0; i < size; i += 3) {
     bmp_arr[i] = 255 - bmp_arr[i];
   }
@@ -116,18 +117,24 @@ void invert(uchar *bmp_arr, size_t size) {
 
 uchar *shrink(uchar *bmp_arr, size_t size, size_t row_len, size_t factor) {
 
+  // Get the size of array for the new image.
   size_t new_size = size / (factor * factor);
 
+  // Allocate memory for the bmp arr
   uchar *new_bmp = malloc(new_size);
 
+  // the interpolated index of original bmp to read
   size_t interp_val = 0;
+
   for (size_t i = 0; i < new_size; i += 3) {
     interp_val += (3 * factor);
 
+    // skip the next pixel rows
     if (interp_val % row_len == 0) {
       interp_val += ((factor - 1) * row_len * 3);
     }
 
+    // copy the color vals
     new_bmp[i] = bmp_arr[interp_val];
     new_bmp[i + 1] = bmp_arr[interp_val + 1];
     new_bmp[i + 2] = bmp_arr[interp_val + 2];
