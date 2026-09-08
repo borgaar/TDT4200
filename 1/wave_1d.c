@@ -70,7 +70,7 @@ void shift_forward(void) {
   buffers[0] = buffers[1];
   buffers[1] = buffers[2];
   buffers[2] = temp;
-};
+}
 // END: T3
 
 // TASK: T4
@@ -99,12 +99,12 @@ void simulate(void) {
   // BEGIN: T6
   int_t iteration = 0;
   while (iteration < max_iteration) {
-    apply_boundary();
-    next_iter();
-    shift_forward();
     if (iteration % snapshot_freq == 0) {
       domain_save(iteration / snapshot_freq);
     }
+    apply_boundary();
+    next_iter();
+    shift_forward();
     iteration++;
   }
   // END: T6
